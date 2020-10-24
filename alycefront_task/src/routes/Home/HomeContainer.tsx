@@ -1,6 +1,7 @@
 import * as React from "react";
 import HomePresenter from "./HomePresenter";
 import { message } from "antd";
+import * as api from "../../api";
 
 interface Props {}
 interface State {
@@ -11,6 +12,7 @@ interface State {
   isUser: boolean;
   loginUser: string;
   [key: string]: string | any;
+  resultData: any;
 }
 
 class HomeContainer extends React.Component<Props, State> {
@@ -21,6 +23,7 @@ class HomeContainer extends React.Component<Props, State> {
     modalVisible: false,
     isUser: false,
     loginUser: "",
+    resultData: [],
   };
 
   componentDidMount() {
@@ -54,8 +57,10 @@ class HomeContainer extends React.Component<Props, State> {
 
   handleSubmit = (): void => {
     const { userId, userPassword, isUser } = this.state;
+
     const adminId: string = "alyce";
     const adminPassword: string = "alyce123";
+
     if (adminId === userId && adminPassword === userPassword) {
       message.success("로그인 성공");
       localStorage.setItem("isUser", `${!isUser}`);
@@ -79,13 +84,25 @@ class HomeContainer extends React.Component<Props, State> {
 
   handleLogOut = (): void => {
     const { isUser } = this.state;
+
     message.success("로그아웃");
     localStorage.setItem("loginUser", "");
     localStorage.setItem("isUser", `${!isUser}`);
+
     this.setState({
       isUser: false,
       loginUser: "",
     });
+  };
+
+  handleSearch = async (value: string): Promise<any> => {
+    const response = await api.apiList.getNews(value);
+    if (response.status === 200) {
+      const result: [] = response.data.articles;
+      this.setState({
+        resultData: result,
+      });
+    }
   };
   render() {
     const {
@@ -95,6 +112,7 @@ class HomeContainer extends React.Component<Props, State> {
       userPassword,
       isUser,
       loginUser,
+      resultData,
     } = this.state;
     const {
       handleChange,
@@ -102,6 +120,7 @@ class HomeContainer extends React.Component<Props, State> {
       handleCancel,
       handleSubmit,
       handleLogOut,
+      handleSearch,
     } = this;
     console.log("this.state :>> ", this.state);
     return (
@@ -112,7 +131,9 @@ class HomeContainer extends React.Component<Props, State> {
         modalVisible={modalVisible}
         isUser={isUser}
         loginUser={loginUser}
+        resultData={resultData}
         handleChange={handleChange}
+        handleSearch={handleSearch}
         handleShowModal={() => handleShowModal()}
         handleCancel={() => handleCancel()}
         handleSubmit={() => handleSubmit()}

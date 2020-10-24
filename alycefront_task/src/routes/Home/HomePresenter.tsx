@@ -1,9 +1,11 @@
 import * as React from "react";
 import LoginForm from "../../component/LoginForm";
+import NewsCard from "../../component/NewsCard";
 import styled from "styled-components";
-import { Layout, Button, Modal } from "antd";
+import { Layout, Button, Modal, Input } from "antd";
 
 const { Content } = Layout;
+const { Search } = Input;
 
 const ButtonContainer = styled.div`
   display: flex;
@@ -27,14 +29,16 @@ interface HomeProps {
   modalVisible: boolean;
   isUser: boolean;
   loginUser: string;
+  resultData: any;
   handleChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
   handleShowModal(): void;
   handleCancel(): void;
   handleSubmit(): void;
   handleLogOut(): void;
+  handleSearch: (value: string) => void;
 }
 
-const HomePresenter: React.FC<HomeProps> = ({
+const HomePresenter = ({
   searchTerm,
   userId,
   userPassword,
@@ -45,39 +49,50 @@ const HomePresenter: React.FC<HomeProps> = ({
   handleSubmit,
   isUser,
   loginUser,
+  resultData,
   handleLogOut,
-}) => (
+  handleSearch,
+}: HomeProps) => (
   <>
     <Content style={{ margin: "0 auto", width: 850 }}>
-      {!isUser ? (
-        <ButtonContainer>
-          <Button type="primary" name="login" onClick={handleShowModal}>
-            로그인
-          </Button>
-        </ButtonContainer>
-      ) : (
-        <ButtonContainer>
-          <Title>{`${loginUser} 님`}</Title>
-          <Button type="primary" name="logout" onClick={handleLogOut}>
-            로그아웃
-          </Button>
-        </ButtonContainer>
-      )}
-    </Content>
+      <ButtonContainer>
+        <Search
+          placeholder="기사 주제 검색"
+          style={{ width: 400, marginRight: 200 }}
+          onSearch={handleSearch}
+          enterButton
+        />
+        {!isUser ? (
+          <>
+            <Button type="primary" name="login" onClick={handleShowModal}>
+              로그인
+            </Button>
+          </>
+        ) : (
+          <>
+            <Title>{`${loginUser} 님`}</Title>
+            <Button type="primary" name="logout" onClick={handleLogOut}>
+              로그아웃
+            </Button>
+          </>
+        )}
+      </ButtonContainer>
 
-    <Modal
-      visible={modalVisible}
-      cancelText="취소"
-      okText={"로그인"}
-      onOk={handleSubmit}
-      onCancel={handleCancel}
-    >
-      <LoginForm
-        handleChange={handleChange}
-        userId={userId}
-        userPassword={userPassword}
-      />
-    </Modal>
+      <Modal
+        visible={modalVisible}
+        cancelText="취소"
+        okText={"로그인"}
+        onOk={handleSubmit}
+        onCancel={handleCancel}
+      >
+        <LoginForm
+          handleChange={handleChange}
+          userId={userId}
+          userPassword={userPassword}
+        />
+      </Modal>
+      {resultData.length !== 0 ? <NewsCard data={resultData} /> : null}
+    </Content>
   </>
 );
 
