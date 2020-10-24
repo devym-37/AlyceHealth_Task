@@ -6,7 +6,7 @@ interface State {}
 class DetailContainer extends React.Component<State> {
   state: State = {};
   render() {
-    <DetailPresenter />;
+    return <DetailPresenter />;
   }
 }
 

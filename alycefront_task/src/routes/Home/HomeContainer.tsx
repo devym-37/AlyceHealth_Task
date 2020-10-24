@@ -6,7 +6,7 @@ interface State {}
 class HomeContainer extends React.Component<State> {
   state: State = {};
   render() {
-    <HomePresenter />;
+    return <HomePresenter />;
   }
 }
 
