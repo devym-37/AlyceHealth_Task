@@ -1,8 +1,8 @@
 import React from "react";
 
-interface HomeProps {}
+interface DetailProps {}
 
-const DetailPresenter: React.FC<HomeProps> = () => (
+const DetailPresenter: React.FC<DetailProps> = () => (
   <>
     <div>Detail</div>
   </>
