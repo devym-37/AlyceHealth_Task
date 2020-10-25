@@ -13,6 +13,7 @@ interface State {
   loginUser: string;
   [key: string]: string | any;
   resultData: any;
+  likeData: Array<{}>;
 }
 
 class HomeContainer extends React.Component<Props, State> {
@@ -24,16 +25,27 @@ class HomeContainer extends React.Component<Props, State> {
     isUser: false,
     loginUser: "",
     resultData: [],
+    likeData: [],
   };
 
   componentDidMount() {
-    const { isUser } = this.state;
-    localStorage.setItem("isUser", `${isUser}`);
+    const checkLogin: string | null = localStorage.getItem("isUser");
+
+    if (checkLogin === null) {
+      localStorage.setItem("isUser", "false");
+    } else {
+      localStorage.setItem("isUser", checkLogin);
+      if (checkLogin === "true") {
+        const userName: any = localStorage.getItem("loginUser");
+        this.setState({
+          isUser: true,
+          loginUser: userName,
+        });
+      }
+    }
   }
 
   handleChange = (e: React.ChangeEvent<HTMLInputElement>): void => {
-    console.log("e :>> ", e.target.value);
-    console.log("e :>> ", e.target.name);
     const name: string = e.target.name;
     this.setState({
       [name]: e.target.value,
@@ -41,7 +53,6 @@ class HomeContainer extends React.Component<Props, State> {
   };
 
   handleShowModal = (): void => {
-    console.log("click :>> ");
     this.setState({
       modalVisible: true,
     });
@@ -65,6 +76,7 @@ class HomeContainer extends React.Component<Props, State> {
       message.success("로그인 성공");
       localStorage.setItem("isUser", `${!isUser}`);
       localStorage.setItem("loginUser", `${userId}`);
+
       this.setState({
         modalVisible: false,
         userId: "",
@@ -104,6 +116,34 @@ class HomeContainer extends React.Component<Props, State> {
       });
     }
   };
+
+  handleLikeData = (value: any) => {
+    const { likeData } = this.state;
+    const checkUser = localStorage.getItem("isUser");
+
+    const currentLikeList: any = localStorage.getItem("likeData");
+    const parserData: any = JSON.parse(currentLikeList);
+    console.log("currentLikeList :>> ", currentLikeList);
+    console.log("parserData :>> ", parserData);
+    const likeInfo: Array<{}> = [];
+    if (checkUser === "true") {
+      message.success("즐겨찾기 등록 완료");
+      this.setState({
+        likeData: [...likeData, value],
+      });
+
+      if (parserData === null) {
+        likeInfo.push(value);
+      } else {
+        likeInfo.push(...parserData, value);
+      }
+      console.log("likeInfo :>> ", likeInfo);
+      localStorage.setItem("likeData", JSON.stringify(likeInfo));
+    } else {
+      message.error("로그인 필요");
+    }
+  };
+
   render() {
     const {
       searchTerm,
@@ -121,6 +161,7 @@ class HomeContainer extends React.Component<Props, State> {
       handleSubmit,
       handleLogOut,
       handleSearch,
+      handleLikeData,
     } = this;
     console.log("this.state :>> ", this.state);
     return (
@@ -134,6 +175,7 @@ class HomeContainer extends React.Component<Props, State> {
         resultData={resultData}
         handleChange={handleChange}
         handleSearch={handleSearch}
+        handleLikeData={handleLikeData}
         handleShowModal={() => handleShowModal()}
         handleCancel={() => handleCancel()}
         handleSubmit={() => handleSubmit()}

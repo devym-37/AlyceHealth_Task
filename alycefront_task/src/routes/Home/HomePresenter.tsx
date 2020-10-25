@@ -36,6 +36,7 @@ interface HomeProps {
   handleSubmit(): void;
   handleLogOut(): void;
   handleSearch: (value: string) => void;
+  handleLikeData: (value: any) => void;
 }
 
 const HomePresenter = ({
@@ -52,6 +53,7 @@ const HomePresenter = ({
   resultData,
   handleLogOut,
   handleSearch,
+  handleLikeData,
 }: HomeProps) => (
   <>
     <Content style={{ margin: "0 auto", width: 850 }}>
@@ -91,7 +93,9 @@ const HomePresenter = ({
           userPassword={userPassword}
         />
       </Modal>
-      {resultData.length !== 0 ? <NewsCard data={resultData} /> : null}
+      {resultData.length !== 0 ? (
+        <NewsCard data={resultData} handleLikeData={handleLikeData} />
+      ) : null}
     </Content>
   </>
 );
