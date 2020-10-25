@@ -11,7 +11,6 @@ import { RestrictRoute } from "./RestrictRoute";
 import Header from "./Header";
 
 import HomeScreen from "../routes/Home";
-import DetailScreen from "../routes/Detail";
 import LikeScreen from "../routes/Like";
 
 const GoToMainPage = () => {
@@ -26,7 +25,6 @@ export default () => (
         <Header />
         <Switch>
           <Route path="/" exact component={HomeScreen} />
-          <Route path="/detail" component={DetailScreen} />
           <RestrictRoute
             path="/likeNews"
             component={LikeScreen}
