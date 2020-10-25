@@ -5,7 +5,6 @@ import * as api from "../../api";
 
 interface Props {}
 interface State {
-  searchTerm: string;
   userId: string;
   userPassword: string;
   modalVisible: boolean;
@@ -18,7 +17,6 @@ interface State {
 
 class HomeContainer extends React.Component<Props, State> {
   state: State = {
-    searchTerm: "",
     userId: "",
     userPassword: "",
     modalVisible: false,
@@ -125,8 +123,7 @@ class HomeContainer extends React.Component<Props, State> {
 
     const currentLikeList: any = localStorage.getItem("likeData");
     const parserData: any = JSON.parse(currentLikeList);
-    console.log("currentLikeList :>> ", currentLikeList);
-    console.log("parserData :>> ", parserData);
+
     const likeInfo: Array<{}> = [];
     if (checkUser === "true") {
       message.success("즐겨찾기 등록 완료");
@@ -139,7 +136,7 @@ class HomeContainer extends React.Component<Props, State> {
       } else {
         likeInfo.push(...parserData, value);
       }
-      console.log("likeInfo :>> ", likeInfo);
+
       const sortData = handleSortData(likeInfo);
       localStorage.setItem("likeData", JSON.stringify(sortData));
     } else {
@@ -158,7 +155,6 @@ class HomeContainer extends React.Component<Props, State> {
 
   render() {
     const {
-      searchTerm,
       modalVisible,
       userId,
       userPassword,
@@ -175,12 +171,11 @@ class HomeContainer extends React.Component<Props, State> {
       handleSearch,
       handleLikeData,
     } = this;
-    console.log("this.state :>> ", this.state);
+
     return (
       <HomePresenter
         userId={userId}
         userPassword={userPassword}
-        searchTerm={searchTerm}
         modalVisible={modalVisible}
         isUser={isUser}
         loginUser={loginUser}

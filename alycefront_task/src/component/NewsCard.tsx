@@ -2,13 +2,8 @@ import * as React from "react";
 
 import styled from "styled-components";
 import { List, Space } from "antd";
-import { LikeOutlined, LikeFilled } from "@ant-design/icons";
-{
-  /* <LikeOutlined /> */
-}
-{
-  /* <LikeFilled /> */
-}
+import { LikeFilled } from "@ant-design/icons";
+
 interface CardProps {
   data: Data[];
   handleLikeData: (value: any) => void;

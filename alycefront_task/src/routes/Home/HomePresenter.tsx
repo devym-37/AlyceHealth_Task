@@ -23,7 +23,6 @@ const Title = styled.div`
 `;
 
 interface HomeProps {
-  searchTerm: string;
   userId: string;
   userPassword: string;
   modalVisible: boolean;
@@ -40,7 +39,6 @@ interface HomeProps {
 }
 
 const HomePresenter = ({
-  searchTerm,
   userId,
   userPassword,
   modalVisible,

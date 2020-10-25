@@ -1,8 +1,7 @@
 import * as React from "react";
 
 import styled from "styled-components";
-import { List, Space, Button } from "antd";
-import { LikeOutlined, LikeFilled } from "@ant-design/icons";
+import { List, Button } from "antd";
 
 interface UpdateCardProps {
   data: Data[];
@@ -38,22 +37,6 @@ const Container = styled.div`
   margin-top: 15px;
   margin-bottom: 15px;
 `;
-
-const LikeContainer = styled.div`
-  width: 20px;
-  margin-top: 15px;
-  cursor: pointer;
-`;
-
-const UnlikeContainer = styled.div`
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-`;
-
-const IconText = ({ icon }: any) => (
-  <Space align="center">{React.createElement(icon)}</Space>
-);
 
 const NewsCard = ({
   data,
