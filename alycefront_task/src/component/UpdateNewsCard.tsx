@@ -6,6 +6,7 @@ import { LikeOutlined, LikeFilled } from "@ant-design/icons";
 
 interface UpdateCardProps {
   data: Data[];
+  handleUnlikeData: (value: any) => void;
   handleShowModal: (value: any) => void;
 }
 
@@ -38,7 +39,27 @@ const Container = styled.div`
   margin-bottom: 15px;
 `;
 
-const NewsCard = ({ data, handleShowModal }: UpdateCardProps) => (
+const LikeContainer = styled.div`
+  width: 20px;
+  margin-top: 15px;
+  cursor: pointer;
+`;
+
+const UnlikeContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+`;
+
+const IconText = ({ icon }: any) => (
+  <Space align="center">{React.createElement(icon)}</Space>
+);
+
+const NewsCard = ({
+  data,
+  handleShowModal,
+  handleUnlikeData,
+}: UpdateCardProps) => (
   <>
     <Container>
       <List
@@ -89,11 +110,20 @@ const NewsCard = ({ data, handleShowModal }: UpdateCardProps) => (
               {item.description.length > 120
                 ? `${item.description.slice(0, 120)}...`
                 : `${item.description}`}
+
               <ButtonContainer>
                 <>
                   <Button
+                    danger
+                    name="unlike"
+                    onClick={() => handleUnlikeData(item)}
+                    style={{ marginRight: 20 }}
+                  >
+                    즐겨찾기 해제
+                  </Button>
+                  <Button
                     type="primary"
-                    name="login"
+                    name="updateNews"
                     onClick={() => handleShowModal(item)}
                   >
                     기사 내용 수정
