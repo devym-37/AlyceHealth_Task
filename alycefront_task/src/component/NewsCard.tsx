@@ -1,9 +1,17 @@
 import * as React from "react";
-import { List } from "antd";
-import styled from "styled-components";
 
+import styled from "styled-components";
+import { List, Space } from "antd";
+import { LikeOutlined, LikeFilled } from "@ant-design/icons";
+{
+  /* <LikeOutlined /> */
+}
+{
+  /* <LikeFilled /> */
+}
 interface CardProps {
   data: Data[];
+  handleLikeData: (value: any) => void;
 }
 
 export interface Data {
@@ -28,7 +36,15 @@ const Container = styled.div`
   margin-bottom: 15px;
 `;
 
-const NewsCard = ({ data }: CardProps) => (
+const LikeContainer = styled.div`
+  width: 20px;
+  margin-top: 15px;
+  cursor: pointer;
+`;
+
+const IconText = ({ icon }: any) => <Space>{React.createElement(icon)}</Space>;
+
+const NewsCard = ({ data, handleLikeData }: CardProps) => (
   <>
     <Container>
       <List
@@ -47,8 +63,9 @@ const NewsCard = ({ data }: CardProps) => (
           margin: "0 auto",
         }}
         dataSource={data}
-        renderItem={(item) => {
+        renderItem={(item, index) => {
           const date: any = new Date(item.publishedAt);
+
           return (
             <List.Item
               key={item.title}
@@ -76,6 +93,9 @@ const NewsCard = ({ data }: CardProps) => (
                 }`}
               />
               {`${item.description.slice(0, 120)}...`}
+              <LikeContainer onClick={() => handleLikeData(item)}>
+                <IconText icon={LikeFilled} key="list-vertical-message" />
+              </LikeContainer>
             </List.Item>
           );
         }}
