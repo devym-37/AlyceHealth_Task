@@ -108,9 +108,10 @@ class HomeContainer extends React.Component<Props, State> {
   };
 
   handleSearch = async (value: string): Promise<any> => {
+    const { handleSortData } = this;
     const response = await api.apiList.getNews(value);
     if (response.status === 200) {
-      const result: [] = response.data.articles;
+      const result: [] = handleSortData(response.data.articles);
       this.setState({
         resultData: result,
       });
@@ -119,6 +120,7 @@ class HomeContainer extends React.Component<Props, State> {
 
   handleLikeData = (value: any) => {
     const { likeData } = this.state;
+    const { handleSortData } = this;
     const checkUser = localStorage.getItem("isUser");
 
     const currentLikeList: any = localStorage.getItem("likeData");
@@ -138,10 +140,20 @@ class HomeContainer extends React.Component<Props, State> {
         likeInfo.push(...parserData, value);
       }
       console.log("likeInfo :>> ", likeInfo);
-      localStorage.setItem("likeData", JSON.stringify(likeInfo));
+      const sortData = handleSortData(likeInfo);
+      localStorage.setItem("likeData", JSON.stringify(sortData));
     } else {
       message.error("로그인 필요");
     }
+  };
+
+  handleSortData = (value: [] | {}[]) => {
+    const response: any = value.sort((a: any, b: any) => {
+      let aDate: any = new Date(a.publishedAt);
+      let bDate: any = new Date(b.publishedAt);
+      return aDate - bDate;
+    });
+    return response;
   };
 
   render() {
