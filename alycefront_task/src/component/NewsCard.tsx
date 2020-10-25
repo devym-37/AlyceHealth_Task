@@ -92,7 +92,9 @@ const NewsCard = ({ data, handleLikeData }: CardProps) => (
                   item.source.name !== null ? item.source.name : "없음"
                 }`}
               />
-              {`${item.description.slice(0, 120)}...`}
+              {item.description.length > 120
+                ? `${item.description.slice(0, 120)}...`
+                : `${item.description}`}
               <LikeContainer onClick={() => handleLikeData(item)}>
                 <IconText icon={LikeFilled} key="list-vertical-message" />
               </LikeContainer>

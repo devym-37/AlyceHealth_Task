@@ -86,10 +86,16 @@ const NewsCard = ({ data, handleShowModal }: UpdateCardProps) => (
                   item.source.name !== null ? item.source.name : "없음"
                 }`}
               />
-              {`${item.description.slice(0, 120)}...`}
+              {item.description.length > 120
+                ? `${item.description.slice(0, 120)}...`
+                : `${item.description}`}
               <ButtonContainer>
                 <>
-                  <Button type="primary" name="login" onClick={handleShowModal}>
+                  <Button
+                    type="primary"
+                    name="login"
+                    onClick={() => handleShowModal(item)}
+                  >
                     기사 내용 수정
                   </Button>
                 </>
