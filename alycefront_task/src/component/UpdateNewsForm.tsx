@@ -55,17 +55,17 @@ const UpdateNewsForm: React.FC<LoginProps> = ({ data, handleChange }) => (
     <Content style={{ margin: "0 auto" }}>
       <Container>
         <Div>기사 제목</Div>
-        <Inputs name="title" value={data[0].title} />
+        <Inputs name="title" disabled value={data[0].title} />
       </Container>
       <Container>
         <Div>저자</Div>
-        <Inputs name="author" value={`${data[0].author}`} />
+        <Inputs name="author" disabled value={`${data[0].author}`} />
       </Container>
       <Container>
         <Div>기사내용</Div>
         <Inputs
           name="description"
-          value={`${data[0].description}`}
+          value={data[0].description}
           onChange={handleChange}
         />
       </Container>
